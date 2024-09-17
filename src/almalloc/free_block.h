@@ -2,6 +2,7 @@
 #define FREE_LIST_H_
 
 #include <cstddef>
+#include "block.h"
 
 namespace almalloc {
 
@@ -17,5 +18,7 @@ class FreeBlock : public Block {
   FreeBlock* prev_free;
   FreeBlock* next_free;
 };
+
+}
 
 #endif // FREE_LIST_H_

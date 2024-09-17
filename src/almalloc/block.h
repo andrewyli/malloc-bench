@@ -8,8 +8,8 @@ namespace almalloc {
 class Block {
  public:
   size_t GetSize() const;
-  Block* GetPrev();
-  Block* GetNext();
+  Block* GetPrev() const;
+  Block* GetNext() const;
   void SetPrev(Block* fbp);
   void SetNext(Block* fbp);
  private:
@@ -18,5 +18,5 @@ class Block {
   size_t size;
   bool is_free;
 };
-
-#endif // FREE_LIST_H_
+}
+#endif // BLOCK_H_
