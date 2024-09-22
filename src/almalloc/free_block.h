@@ -9,11 +9,10 @@ namespace almalloc {
 class FreeBlock : public Block {
  public:
   size_t GetSize() const;
-  FreeBlock* GetPrev();
-  FreeBlock* GetNext();
+  FreeBlock* GetPrevFree() const;
+  FreeBlock* GetNextFree() const;
   void SetPrevFree(FreeBlock* fbp);
   void SetNextFree(FreeBlock* fbp);
-  void Resize(size_t new_size);
  private:
   FreeBlock* prev_free;
   FreeBlock* next_free;
