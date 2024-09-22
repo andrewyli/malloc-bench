@@ -42,10 +42,13 @@ struct TraceResult {
 };
 
 bool ShouldIgnoreForScoring(const std::string& trace) {
-  return trace.ends_with("-short.trace") ||
-         absl::StrContains(trace, "simple") ||
+  return absl::StrContains(trace, "simple") ||
          absl::StrContains(trace, "test") ||
-         trace.ends_with("ngram-fox1.trace");
+         absl::StrContains(trace, "/bdd-") ||
+         absl::StrContains(trace, "/cbit-") ||
+         absl::StrContains(trace, "/syn-") ||
+         absl::StrContains(trace, "/ngram-") ||
+         absl::StrContains(trace, "/server.trace");
 }
 
 absl::StatusOr<TraceResult> RunTrace(const std::string& tracefile,
@@ -151,9 +154,9 @@ void PrintTestResults(const std::vector<TraceResult>& results) {
 
   if (all_correct) {
     constexpr double kMinUtilThresh = 0.55;
-    constexpr double kMaxUtilThresh = 0.75;
-    constexpr double kMinOpsThresh = 50;
-    constexpr double kMaxOpsThresh = 150;
+    constexpr double kMaxUtilThresh = 0.875;
+    constexpr double kMinOpsThresh = 40;
+    constexpr double kMaxOpsThresh = 100;
 
     double util_score = std::clamp((total_util / n_correct - kMinUtilThresh) /
                                        (kMaxUtilThresh - kMinUtilThresh),
@@ -212,6 +215,7 @@ int RunAllTraces() {
            "traces/cbit-parity.trace",
            "traces/cbit-satadd.trace",
            "traces/cbit-xyz.trace",
+           "traces/firefox.trace",
            "traces/four-in-a-row.trace",
            "traces/grep.trace",
            "traces/haskell-web-server.trace",
@@ -225,6 +229,8 @@ int RunAllTraces() {
            "traces/ngram-shake1.trace",
            "traces/onoro.trace",
            "traces/onoro-cc.trace",
+           "traces/py-catan-ai.trace",
+           "traces/py-euler-nayuki.trace",
            "traces/scp.trace",
            "traces/server.trace",
            "traces/simple.trace",
@@ -243,6 +249,8 @@ int RunAllTraces() {
            "traces/syn-struct-short.trace",
            "traces/test.trace",
            "traces/test-zero.trace",
+           "traces/vim.trace",
+           "traces/vlc.trace",
        }) {
     if (absl::GetFlag(FLAGS_ignore_test) && ShouldIgnoreForScoring(tracefile)) {
       continue;
